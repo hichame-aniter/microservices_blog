@@ -1,26 +1,34 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class Post extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
-  }
-  Post.init({
-    title: DataTypes.STRING,
-    content: DataTypes.TEXT,
-    category: DataTypes.STRING(100),    
-    tags: DataTypes.STRING
-  }, {  
-    sequelize,
-    modelName: 'Post',
-  });
-  return Post;
-};
+const { Model, DataTypes } = require('sequelize');
+const { sequelize } = require('../../config/database');
+
+module.exports = sequelize.define(
+  'Post',
+  {
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    body: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    slug: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: { isUrl:true }
+    },
+    status: {
+      type: DataTypes.ENUM('draft', 'published'),
+      defaultValue: 'draft',
+    },
+  },
+  {
+    // Other model options go here
+    
+  },
+);
+
+// `sequelize.define` also returns the model
+console.log(Post === sequelize.models.Post); // true

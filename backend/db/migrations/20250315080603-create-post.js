@@ -10,24 +10,32 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
       },
-      content: {
-        type: Sequelize.TEXT
+      slug: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
       },
-      category: {
-        type: Sequelize.STRING(100)
+      body: {
+        type: Sequelize.TEXT,
+        allowNull: false,
       },
-      tags: {
-        type: Sequelize.STRING
+      status: {
+        type: Sequelize.ENUM('draft', 'published'),
+        defaultValue: 'draft',
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        onUpdate: Sequelize.literal('CURRENT_TIMESTAMP'),
       }
     });
   },

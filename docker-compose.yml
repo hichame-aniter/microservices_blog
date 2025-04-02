@@ -20,9 +20,15 @@ services:
     restart: always
     ports:
       - 8080:8080
+  dbeaver:
+    image: dbeaver/cloudbeaver
+    ports:
+      - 8978:8978
   backend:
     build: 
       context: backend
+    environment:
+      NODE_ENV: production
     depends_on:
       db:
         condition: service_healthy
